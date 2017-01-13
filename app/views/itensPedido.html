@@ -1,0 +1,23 @@
+<!-- Página de seleção de itens do pedido -->
+<br>
+<h2>Seleção de itens do pedido</h2>
+<div class="content">
+	<label>Exibir lista
+		<input type="checkbox" ng-model="exibeListaProduto">
+	</label>	
+	<input type="search" placeholder="Buscar" ng-model="filtroPalavra">
+	<br><br>
+	<ul ng-show="exibeListaProduto">
+		<h3>Produtos: </h3>
+		<li ng-repeat="item in produtos | filter: filtroPalavra">
+			{{item.descricao}} : &nbsp;&nbsp;
+			<label>Qtd: </label>
+			<button ng-click="inc()">+</button>
+				{{num}}
+			<button ng-click="dim()">-</button>
+		</li>
+		<br>
+		<h3 ng-show="erroSim">{{mensagem}}</h3>
+	</ul>
+</div>
+     

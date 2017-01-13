@@ -1,0 +1,19 @@
+<!-- Página do jogo Breakout -->
+<h2 class="text-center">Breakout!</h2>
+<br>
+ <!-- Estilo da página -->
+<style type="text/css">
+	canvas{border: 3px solid #000000;}
+    div.center{text-align: center; margin: auto;}
+</style>
+<div class="content" ng-controller="GenericController">
+   <div class="center" ng-init="loadGame()">
+	    <h1 id="titulo" style="margin: 2px;">Jogo da barra!</h1>
+	    <a href="javascript:playGame()" id='playButton'>PLAY GAME</a>
+	    <pre>Pontos: <span id="points">0</span></pre>
+	    <canvas id="canvas" width="600" height="460">
+	        Navegador não suporta HTML5
+	    </canvas>
+	    <h3 id="message"></h3>
+	</div>
+</div>

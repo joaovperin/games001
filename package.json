@@ -1,0 +1,47 @@
+{
+  "name": "games001",
+  "version": "1.0.0",
+  "description": "Games website",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joaovperin/games001.git"
+  },
+  "keywords": [
+    "games",
+    "angular",
+    "phaser"
+  ],
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-add-src": "^0.2.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-livereload": "^3.8.1",
+    "gulp-nodemon": "^2.2.1",
+    "gulp-notify": "^2.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-rev": "^7.1.2",
+    "gulp-streamify": "^1.0.2",
+    "gulp-uglify": "^2.0.0",
+    "gulp-usemin": "^0.3.27",
+    "gulp-util": "^3.0.8",
+    "gulp-watch": "^4.3.11",
+    "merge-stream": "^1.0.1",
+    "serve-static": "^1.11.1"
+  },
+  "author": "joaovperin",
+  "contributors": [
+    {
+      "name": "xX-M4TH3U5-Xx"
+    }
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joaovperin/games001/issues"
+  },
+  "homepage": "https://github.com/joaovperin/games001#readme"
+}

@@ -1,0 +1,8 @@
+/* Body */
+body {padding-top: 70px;}
+
+/* Bootstrap Dropdown Menu */
+.dropdown:hover .dropdown-menu {display: block; margin-top: 0;}
+
+/* Footer */
+ div.footer > footer{position: fixed; bottom: 0; background-color: yellow; display: block; width: 100%; text-align: center;}
