@@ -1,5 +1,5 @@
 //Controller da página de Cadastro
-app.controller('CadastroController', function ($scope) {
+angular.module('Games').controller('CadastroController', function ($scope) {
 
 	
 

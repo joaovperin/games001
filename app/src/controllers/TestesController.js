@@ -1,5 +1,5 @@
 //Controller da página de testes
-app.controller('TestesController', function ($scope) {
+angular.module('Games').controller('TestesController', function ($scope) {
 
     $scope.colorList = [
         {

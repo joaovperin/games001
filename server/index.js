@@ -4,7 +4,7 @@ var serveStatic = require('serve-static');
 
 // Server Config
 var Server = {
-	port: 8080,
+	port: 3000,
 	appRoot: function(){
 		return __dirname + '\\..\\app\\';
 	}

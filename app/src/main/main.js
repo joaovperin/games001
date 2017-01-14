@@ -7,54 +7,54 @@ angular.module('Games').config(function ($routeProvider, $locationProvider) {
     //http://stackoverflow.com/questions/18619740/how-to-add-a-search-box-with-icon-to-the-navbar-in-bootstrap-3
 
     $routeProvider.when('/', {
-        templateUrl: 'app/views/main/main.html',
+        templateUrl: '/views/main/main.html',
         controller: 'GenericController'
     });
 
     $routeProvider.when('/games', {
-        templateUrl: '/app/views/games/games.html',
+        templateUrl: '/views/games/games.html',
         controller: 'GamesCtrl'
     });
 
     $routeProvider.when('/games/1', {
-        templateUrl: '/app/views/games/snake.html',
+        templateUrl: '/views/games/snake.html',
         controller: 'GenericController'
     });
 
     $routeProvider.when('/games/2', {
-        templateUrl: '/app/views/games/breakout.html',
+        templateUrl: '/views/games/breakout.html',
         controller: 'GenericController'
     });
 
     $routeProvider.when('/games/3', {
-        templateUrl: '/app/views/games/spaceinvaders.html',
+        templateUrl: '/views/games/spaceinvaders.html',
         controller: 'GenericController'
     });
 
     $routeProvider.when('/contato', {
-        templateUrl: 'app/views/contato/contato.html',
+        templateUrl: '/views/contato/contato.html',
         controller: 'GenericController'
     });
 
     $routeProvider.when('/cadastro', {
-        templateUrl: 'app/views/cadastro/cadastro.html',
+        templateUrl: '/views/cadastro/cadastro.html',
         controller: 'CadastroController'
     });
 
     $routeProvider.when('/login', {
-        templateUrl: 'app/views/login/login.html',
+        templateUrl: '/views/login/login.html',
         controller: 'LoginController'
     });
 
     // DELETAR ESSA BAGAÇA
     $routeProvider.when('/itensPedido', {
-        templateUrl: 'app/views/itensPedido.html',
+        templateUrl: '/views/itensPedido.html',
         controller: 'ItensPedidoController'
     });
 
     //Classe de testes, criada para os desenvolvedores
     $routeProvider.when('/testes', {
-        templateUrl: 'app/views/testes/testes.html',
+        templateUrl: '/views/testes/testes.html',
         controller: 'TestesController'
     });
 
@@ -62,7 +62,7 @@ angular.module('Games').config(function ($routeProvider, $locationProvider) {
      * Http Status
      */
     $routeProvider.when('/404', {
-        templateUrl: 'app/views/http/404.html',
+        templateUrl: '/views/http/404.html',
         controller: 'HTTPError404'
     });
 
@@ -71,3 +71,15 @@ angular.module('Games').config(function ($routeProvider, $locationProvider) {
     });
 
 });
+
+var batata = {
+    x: 10,
+    y: 5,
+    render: function(){
+        console.log(this.x);
+    }
+};
+
+
+
+

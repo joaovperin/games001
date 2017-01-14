@@ -4,8 +4,8 @@
 	<meta charset="UTF-8">
 	<base href="/#/">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="app/dist/libs.css">
-	<link rel="stylesheet" href="app/dist/theme.css">
+	<link rel="stylesheet" href="dist/libs.css">
+	<link rel="stylesheet" href="dist/theme.css">
 	<!-- Título da página -->
 	<title>{{projeto.title}}</title>
 </head>
@@ -66,7 +66,7 @@
 			</div>
 		</nav>
 		<!-- Site Logo -->
-		<img src="app/img/logo.png">
+		<img src="img/logo.png">
 		<hr>		
 	</header>
 	<!-- View gerenciada pelos Controllers específicos declarados no MAIN.JS -->
@@ -78,10 +78,11 @@
 		<footer ng-controller="FooterController">{{foot}}</footer>
 	</div>
 	<!-- Scripts Angular -->
-	<script src="app/dist/libs.js"></script>
-	<script src="app/dist/app.js"></script>
+	<script src="dist/libs.js"></script>
+	<script src="dist/app.js"></script>
+	<script src="dist/controllers.js"></script>
 	<!-- Games -->
-	<script src="app/dist/games/breakout.js"></script>
-	<script src="app/dist/games/snake.js"></script>
+	<script src="dist/games/breakout.js"></script>
+	<script src="dist/games/snake.js"></script>
 </body>
 </html>

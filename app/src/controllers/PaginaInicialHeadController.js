@@ -1,5 +1,5 @@
 //Controller do header da página inicial
-app.controller('PaginaInicialHeaderController', function ($scope) {
+angular.module('Games').controller('PaginaInicialHeaderController', function ($scope) {
     //Cria objeto do projeto
 	$scope.projeto = { };
     //Seta título da página principal

@@ -1,5 +1,5 @@
 //Controller com funções genéricas, usado em jogos
-app.controller ('GenericController', function($scope, $location){
+angular.module('Games').controller ('GenericController', function($scope, $location){
 
     //Localização atual (URL)
     $scope.tab = $location.path();

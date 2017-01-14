@@ -1,5 +1,5 @@
 //Controller do template de itens do pedido
-app.controller ('ItensPedidoController', function($scope, $http){
+angular.module('Games').controller ('ItensPedidoController', function($scope, $http){
 
     //Lista de Produtos
     $scope.produtos = [
