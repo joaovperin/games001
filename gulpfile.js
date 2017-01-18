@@ -21,6 +21,11 @@ var destPath = 'app/dist/games/';
 // Configuração
 var files = [
 	{
+		watch: 'app/src/main/*.js',
+		output: './app/dist/',
+		name: 'app.js',
+		nameMin: 'app.min.js'
+	}, {
 		watch: 'app/src/controllers/**/*.js',
 		output: './app/dist/',
 		name: 'controllers.js',

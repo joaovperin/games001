@@ -3,8 +3,8 @@ var connect = require('connect');
 var serveStatic = require('serve-static');
 
 // Server Config
-var Server = {
-	port: 3000,
+const Server = {
+	port: 8080,
 	appRoot: function(){
 		return __dirname + '\\..\\app\\';
 	}
@@ -13,6 +13,25 @@ var Server = {
 /**
  * Starta o server na porta especificada
  */
-connect().use(serveStatic(Server.appRoot())).listen(Server.port, function(){
+var app = connect();
+app.use(serveStatic(Server.appRoot()));
+app.use(function(req, res, next){
+	switch (req.url) {
+		/*
+      case '/404':
+        var body = '404 test';
+        res.statusCode = 404;
+        res.setHeader('Content-Length', body.length);
+        res.end(body);
+        break;
+        */
+      default:
+        //var body = 'my page';
+        //res.setHeader('Content-Length', body.length);
+        //res.end('Page Not Found :/');
+    }
+});
+
+app.listen(Server.port, function(){
     console.log('Servidor rodando na porta ' + Server.port + '.');
 });

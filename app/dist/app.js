@@ -88,7 +88,7 @@ var app = angular.module('Games', ['ngRoute']);
 angular.module('Games').config(function ($routeProvider, $locationProvider) {
 
     // Remove o # da url
-    //$locationProvider.html5Mode(true);
+    $locationProvider.html5Mode(true);
     //http://stackoverflow.com/questions/18619740/how-to-add-a-search-box-with-icon-to-the-navbar-in-bootstrap-3
 
     $routeProvider.when('/', {
@@ -156,15 +156,3 @@ angular.module('Games').config(function ($routeProvider, $locationProvider) {
     });
 
 });
-
-var batata = {
-    x: 10,
-    y: 5,
-    render: function(){
-        console.log(this.x);
-    }
-};
-
-
-
-

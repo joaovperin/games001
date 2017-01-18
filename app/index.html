@@ -2,7 +2,7 @@
 <html lang="pt" ng-app="Games">
 <head ng-controller="PaginaInicialHeaderController">
 	<meta charset="UTF-8">
-	<base href="/#/">
+	<base href="/">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="dist/libs.css">
 	<link rel="stylesheet" href="dist/theme.css">
@@ -23,32 +23,32 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="/#/">Games</a>
+					<a class="navbar-brand" href="/">Games</a>
 				</div>
 				<!-- Escopo retrátil -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">	
 					<!-- Alinhado a esquerda -->
 					<ul class="nav navbar-nav">
-						<li ng-class="{active: isIndexActive()}"><a ng-href="/#/">Home</a></li>
+						<li ng-class="{active: isIndexActive()}"><a ng-href="/">Home</a></li>
 						<li class="dropdown ng-class:{active: isActive('/games')}">
-							<a class="dropdown-toggle" data-toggle="dropdown" ng-href="/#/games">Games<span class="caret"></span></a>
+							<a class="dropdown-toggle" data-toggle="dropdown" ng-href="/games">Games<span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li><a ng-href="/#/games/1">Snake</a></li>
-								<li><a ng-href="/#/games/2">Breakout</a></li>
-								<li><a ng-href="/#/games/3">Space Invaders</a></li>
+								<li><a ng-href="/games/1">Snake</a></li>
+								<li><a ng-href="/games/2">Breakout</a></li>
+								<li><a ng-href="/games/3">Space Invaders</a></li>
 							</ul>
 						</li>
-						<li ng-class="{active: isActive('/contato')}"><a ng-href="/#/contato">Contato</a></li>
+						<li ng-class="{active: isActive('/contato')}"><a ng-href="/contato">Contato</a></li>
 					</ul>
 					<!-- Alinhado a direita -->
 					<ul class="nav navbar-nav navbar-right">
 						<li ng-class="{active: isActive('/testes')}">
-							<a href="/#/testes"><span class="glyphicon glyphicon-lock"></span> Testes</a></li>
+							<a href="/testes"><span class="glyphicon glyphicon-lock"></span> Testes</a></li>
 						<li ng-class="{active: isActive('/cadastro')}">
-							<a href="/#/cadastro"> <span class="glyphicon glyphicon-user"></span> Cadastro</a>
+							<a href="/cadastro"> <span class="glyphicon glyphicon-user"></span> Cadastro</a>
 						</li>
 						<li ng-class="{active: isActive('/login')}">
-							<a href="/#/login"> <span class="glyphicon glyphicon-log-in"></span> Login</a>
+							<a href="/login"> <span class="glyphicon glyphicon-log-in"></span> Login</a>
 						</li>
 					</ul>
 					<!-- Formulário de pesquisa -->
