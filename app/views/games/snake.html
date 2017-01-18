@@ -1,8 +1,33 @@
 <!-- Página do game Snake -->
 <h2 class="text-center">Snake Game!</h2>
 <br>
-<div class="content">
-    <p class="text text-center" >
-        Coming soon...
-    </p>
-</div>
+<style type="text/css">
+	canvas {
+	    border: 1px solid #d3d3d3;
+	    background-color: #f1f1f1;
+	}
+</style>
+<center>
+	<h1>Snake</h1><small><pre>by joaovperin</pre></small>
+	<div class="text">Points: <span id="points">0</span></div>
+	<div class="content">
+		<canvas id="canvas">
+			Canvas not supported. Please update your browser.
+		</canvas>
+	</div>
+	<h2 id="result"></h2>
+	<button id="playBt">Play</button>
+	<button id='restart'>Restart</button>
+</center>
+<script type="text/javascript">
+	$(function(){
+		$('#result').hide();
+		$('#playBt').click(function(){
+			startGame();
+		});
+		$('#restart').hide().click(function(){
+			console.log('oi');
+			location.reload();
+		});
+	});
+</script>
