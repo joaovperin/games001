@@ -1,27 +1,49 @@
+angular.module('Games').factory('SnakeInputListener', function () {
 
-/**
- * The input controller
- */
-InputListener = {
+	var keyDownFn = function (e) {
+		InputListener.key = e.keyCode;
+		InputListener.press = true;
+	};
 
-	key: false, press: false,
+	var keyUpFn = function (e) {
+		InputListener.press = false;
+	};
 
-	start: function(){
+	/**
+	 * The input controller
+	 */
+	var InputListener = {
 
-		window.addEventListener('keydown', function (e) {
-            InputListener.key = e.keyCode;
-            InputListener.press = true;
-        })
+		key: false,
+		press: false,
 
-        window.addEventListener('keyup', function (e) {
-          	InputListener.press = false;
-        })
-	},
+		start: function () {
+			window.addEventListener('keydown', keyDownFn);
+			window.addEventListener('keyup', keyUpFn);
+		},
+		stop: function () {
+			window.removeEventListener('keydown', keyDownFn);
+			window.removeEventListener('keyup', keyUpFn);
+		},
 
-	isDown: function(){return InputListener.key === 40},
-	isUp: function(){return InputListener.key === 38},
-	isLeft: function(){return InputListener.key === 37},
-	isRight: function(){return InputListener.key === 39},
-	isPress: function(){return InputListener.press}
+		isDown: function () {
+			return InputListener.key === 40
+		},
+		isUp: function () {
+			return InputListener.key === 38
+		},
+		isLeft: function () {
+			return InputListener.key === 37
+		},
+		isRight: function () {
+			return InputListener.key === 39
+		},
+		isPress: function () {
+			return InputListener.press
+		}
 
-}
+	}
+
+	return InputListener;
+
+});

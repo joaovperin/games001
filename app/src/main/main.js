@@ -18,12 +18,12 @@ angular.module('Games').config(function ($routeProvider, $locationProvider) {
 
     $routeProvider.when('/games/1', {
         templateUrl: '/views/games/snake.html',
-        controller: 'GenericController'
+        controller: 'SnakeGamesCtrl'
     });
 
     $routeProvider.when('/games/2', {
         templateUrl: '/views/games/breakout.html',
-        controller: 'GenericController'
+        controller: 'BreakoutGamesCtrl'
     });
 
     $routeProvider.when('/games/3', {

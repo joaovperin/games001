@@ -16,18 +16,6 @@
 		</canvas>
 	</div>
 	<h2 id="result"></h2>
-	<button id="playBt">Play</button>
-	<button id='restart'>Restart</button>
+	<button ng-click="startGame()">Play</button>
+	<button ng-click="stopGame()">Stop</button>
 </center>
-<script type="text/javascript">
-	$(function(){
-		$('#result').hide();
-		$('#playBt').click(function(){
-			startGame();
-		});
-		$('#restart').hide().click(function(){
-			console.log('oi');
-			location.reload();
-		});
-	});
-</script>

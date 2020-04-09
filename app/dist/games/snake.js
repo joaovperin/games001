@@ -1,265 +1,374 @@
-/**
- * Food controller
- */
-Food = {
+angular.module('Games').factory('SnakeGame', function (SnakeGameParams, SnakeInputListener, SnakePlayer, SnakeFood) {
 
-	create: function(){
-		this.size = 20, this.color = '#a0b2cc';
-		var obj = this.createPos();
-		this.x = obj.x, this.y = obj.y;
-	},
+	// Instances
+	var InputListener = SnakeInputListener;
+	var Player = SnakePlayer;
+	var Food = SnakeFood;
 
-	update: function(){
-		// If collides with player
-		if (Player.x == this.x && Player.y == this.y) {
-			Player.grow();
-			this.create();
-		}
-
-	},
-
-	render: function(){
-		Game.ctx.fillStyle = this.color;
-        Game.ctx.fillRect(this.x, this.y, this.size, this.size);
-	},
-
-	createPos: function(){
-		var px = this.rand(Game.p.width);
-		var py = this.rand(Game.p.height);
-
-		if (Player.x == px && Player.y == py) return this.createPos();
-
-		// Check if not colliding on tail
-		for (var i = 0; i < Player.tail.length; i++) {
-			if (Player.tail[i].x == px && Player.tail[i].y == py) {
-				return this.createPos();
-			}
-		}
-		return {x: px, y: py};
-
-	},
-
-	rand: function(limit) {
-		return Math.floor(Math.random() * limit/this.size ) * this.size;
+	/**
+	 * Clear game canvas
+	 */
+	function clearCanvas() {
+		SnakeGameParams.ctx.clearRect(0, 0, SnakeGameParams.width, SnakeGameParams.height);
 	}
 
-}
+	/**
+	 * Main Game Object
+	 */
+	var Game = {
 
-// Instances
-var Game;
-var InputListener;
-var Player;
-var Food;
+		/**
+		 * Loads all the game resources
+		 */
+		load: function () {
+			console.log('Loading SnakeGame...');
+			this.canvas = $('#canvas').attr('width', SnakeGameParams.width + 'px').attr('height', SnakeGameParams.height + 'px');
+			SnakeGameParams.ctx = this.canvas[0].getContext("2d");
+			SnakeGameParams.maxLen = this.getMaxLength();
+			Player.load();
+			Food.create();
+			console.log('done!');
+		},
 
-/**
- * Loads and starts the game
- */
-function startGame(){
-	Game.load();
-	Game.start();
-}
+		/**
+		 * Start the game
+		 */
+		start: function () {
+			InputListener.start();
+			SnakeGameParams.MainLoop = setInterval(this.update, parseInt(1000 / SnakeGameParams.fps));
+		},
 
-/**
- * Main Game Object
- */
-Game = {
+		/**
+		 * Updates the screen
+		 */
+		update: function () {
+			Player.update();
+			Food.update();
+			Game.render();
+		},
 
-	// Params
-	p: {
-		width: 320, height: 240, size:20, fps: 5, points: 0, maxLen: 0, state: 0
-	},
+		/**
+		 * Renders everything
+		 */
+		render: function () {
+			clearCanvas();
+			Player.render();
+			Food.render();
+			// If changed the state
+			if (SnakeGameParams.state !== 0) {
+				$('#restart').show();
+				var text = '';
+				if (SnakeGameParams.state === 1) {
+					this.doGameOver();
+					text = 'Game Over :/';
+				}
+				if (SnakeGameParams.state === 2) {
+					this.doWin();
+					text = 'YOU WIN! hehe :/';
+				}
+				$('#result').show().text(text);
+			}
+		},
+
+		doGameOver: function () {
+			clearCanvas();
+			SnakeGameParams.ctx.fillStyle = '#000000';
+			SnakeGameParams.ctx.font = "30px Arial";
+			var xx = Math.floor(SnakeGameParams.width / 2 - 58);
+			var yy = Math.floor(SnakeGameParams.height / 2 + 7);
+			SnakeGameParams.ctx.fillText("You Die! ", xx, yy);
+		},
+
+		doWin: function () {
+			clearCanvas();
+			SnakeGameParams.ctx.fillStyle = '#000000';
+			SnakeGameParams.ctx.font = "30px Arial";
+			var xx = Math.floor(SnakeGameParams.width / 2 - 58);
+			var yy = Math.floor(SnakeGameParams.height / 2 + 7);
+			SnakeGameParams.ctx.fillText("You Win! ", xx, yy);
+		},
+
+		getMaxLength: function () {
+			return Math.floor((SnakeGameParams.width * SnakeGameParams.height) / (SnakeGameParams.size * SnakeGameParams.size));
+		},
+
+		/**
+		 * Loads and starts the game
+		 */
+		startGame: function () {
+			this.initGameParams();
+			this.load();
+			this.start();
+		},
+
+		/**
+		 * Stop the game
+		 */
+		stopGame: function () {
+			clearCanvas();
+			InputListener.stop();
+			clearInterval(SnakeGameParams.MainLoop);
+		},
+
+		/**
+		 * Initialize game parameters
+		 */
+		initGameParams: function () {
+			SnakeGameParams.width = 320;
+			SnakeGameParams.height = 240;
+			SnakeGameParams.size = 20;
+			SnakeGameParams.fps = 5;
+			SnakeGameParams.points = 0;
+			SnakeGameParams.maxLen = 0;
+			SnakeGameParams.start = 0;
+			SnakeGameParams.ctx = null;
+		}
+
+	};
+
+	return Game;
+
+});
+angular.module('Games').factory('SnakeInputListener', function () {
+
+	var keyDownFn = function (e) {
+		InputListener.key = e.keyCode;
+		InputListener.press = true;
+	};
+
+	var keyUpFn = function (e) {
+		InputListener.press = false;
+	};
 
 	/**
-	 * Loads all the game resources
+	 * The input controller
 	 */
-	load: function () {
-		console.log('loading...');
-		this.canvas = $('#canvas').attr('width', this.p.width + 'px').attr('height', this.p.height + 'px');
-		this.ctx = this.canvas[0].getContext("2d");
-		this.p.maxLen = this.getMaxLength();
-		Player.load();
-		Food.create();
-		console.log('done!');
-	},
+	var InputListener = {
 
-	/**
-	 * Start the game
-	 */
-	start: function () {
-		InputListener.start();
-		this.p.MainLoop = setInterval(this.update, parseInt(1000/this.p.fps));
-	},
+		key: false,
+		press: false,
 
-	/**
-	 * Updates the screen
-	 */
-	update: function () {
-		Player.update();
-		Food.update();
-		Game.render();
-	},
+		start: function () {
+			window.addEventListener('keydown', keyDownFn);
+			window.addEventListener('keyup', keyUpFn);
+		},
+		stop: function () {
+			window.removeEventListener('keydown', keyDownFn);
+			window.removeEventListener('keyup', keyUpFn);
+		},
 
-	/**
-	 * Renders everything
-	 */
-	render: function () {
-		this.ctx.clearRect(0, 0, this.p.width, this.p.height);
-		Player.render();
-		Food.render();
-		// If changed the state
-		if(this.p.state !== 0){
-			$('#restart').show();
-			var text = '';
-			if(this.p.state === 1){
-				this.doGameOver();
-				text = 'Game Over :/';
-			}
-			if(this.p.state === 2){
-				this.doWin();
-				text = 'YOU WIN! hehe :/';
-			}
-			$('#result').show().text(text);
-		}
-	},
-
-	doGameOver: function(){
-		this.ctx.clearRect(0, 0, this.p.width, this.p.height);
-		this.ctx.fillStyle = '#000000';
-		this.ctx.font = "30px Arial";
-		var xx = Math.floor(this.p.width / 2 - 58);
-		var yy = Math.floor(this.p.height / 2 + 7);
-		this.ctx.fillText("You Die! ", xx, yy);
-	},
-
-	doWin: function(){
-		this.ctx.clearRect(0, 0, this.p.width, this.p.height);
-		this.ctx.fillStyle = '#000000';
-		this.ctx.font = "30px Arial";
-		var xx = Math.floor(this.p.width / 2 - 58);
-		var yy = Math.floor(this.p.height / 2 + 7);
-		this.ctx.fillText("You Win! ", xx, yy);
-	},
-
-	getMaxLength: function(){
-		return Math.floor((this.p.width * this.p.height) / (this.p.size * this.p.size));
-	}
-
-}
-
-/**
- * The input controller
- */
-InputListener = {
-
-	key: false, press: false,
-
-	start: function(){
-
-		window.addEventListener('keydown', function (e) {
-            InputListener.key = e.keyCode;
-            InputListener.press = true;
-        })
-
-        window.addEventListener('keyup', function (e) {
-          	InputListener.press = false;
-        })
-	},
-
-	isDown: function(){return InputListener.key === 40},
-	isUp: function(){return InputListener.key === 38},
-	isLeft: function(){return InputListener.key === 37},
-	isRight: function(){return InputListener.key === 39},
-	isPress: function(){return InputListener.press}
-
-}
-/**
- * The player controller
- */
-Player = {
-
-	load: function(){
-		this.size = Game.p.size, this.color = '#dfa002', this.headColor = '#ff0000';
-		this.x = 0, this.y = 0;
-		this.vx = 0, this.vy = 0;
-		this.snakeLen = 0, this.tail = [];
-	},
-
-	update: function () {
-
-		// Makes it move
-		var key = InputListener;
-		if (key){
-			if (!this.vy && key.isDown()) 	{this.vy = this.size, this.vx = 0;}
-			if (!this.vy && key.isUp()) 	{this.vy = -this.size, this.vx = 0;}
-			if (!this.vx && key.isLeft()) 	{this.vy = 0, this.vx = -this.size;}
-			if (!this.vx && key.isRight()) 	{this.vy = 0, this.vx = this.size;}
-		}
-
-		// Check for collisions on the border
-		this.checkBorder();
-
-		// Moves the tail
-		if (this.snakeLen === this.tail.length){
-			for(var i=0; i < this.tail.length - 1; i++){
-				this.tail[i].x = this.tail[i + 1].x;
-				this.tail[i].y = this.tail[i + 1].y;
-			}
-		}
-		this.tail[this.snakeLen - 1] = {x: this.x, y: this.y};
-
-		// Moves the head
-		this.x += this.vx;
-		this.y += this.vy;
-
-		if(this.checkCollision()){
-			Game.p.state = 1; // Game Over State
-			clearInterval(Game.p.MainLoop);
-		}
-
-	},
-
-	render: function(){
-		// Choose color
-		Game.ctx.fillStyle = this.color;
-		// Draws the tail
-		for(var i=0; i < this.tail.length; i++){
-			Game.ctx.fillRect(this.tail[i].x, this.tail[i].y, this.size, this.size);
-		}
-		// Draws the head
-		Game.ctx.fillStyle = this.headColor;
-        Game.ctx.fillRect(this.x, this.y, this.size, this.size);
-	},
-
-	checkCollision: function(){
-		// Check for collisions in tail
-		for (var i=0; i < this.tail.length; i++) {
-			if(this.x == this.tail[i].x && this.y == this.tail[i].y){
-				return true;
-			}
-		}
-		return false;
-	},
-
-	checkBorder: function(){
-
-		// X axis
-		if (this.vx < 0 && this.x <= 0){ this.x = Game.p.width; }
-		if (this.vx > 0 && this.x == Game.p.width - this.size){ this.x = -this.size; }
-
-		// Y axis
-		if (this.vy < 0 && this.y <= 0){ this.y = Game.p.height; }
-		if (this.vy > 0 && this.y == Game.p.height - this.size){ this.y = -this.size; }
-	},
-
-	grow: function(){
-		Game.p.points += 100;
-		$('#points').text(Game.p.points);
-		// Check if not win
-		if (++this.snakeLen >= Game.p.maxLen){
-			Game.p.state = 2;
-			clearInterval(Game.p.MainLoop);
+		isDown: function () {
+			return InputListener.key === 40
+		},
+		isUp: function () {
+			return InputListener.key === 38
+		},
+		isLeft: function () {
+			return InputListener.key === 37
+		},
+		isRight: function () {
+			return InputListener.key === 39
+		},
+		isPress: function () {
+			return InputListener.press
 		}
 
 	}
 
-}
+	return InputListener;
+
+});
+angular.module('Games').factory('SnakePlayer', function (SnakeGameParams, SnakeInputListener) {
+
+	// Instances
+	var InputListener = SnakeInputListener;
+
+	/**
+	 * The player controller
+	 */
+	var Player = {
+
+		load: function () {
+			this.size = SnakeGameParams.size, this.color = '#dfa002', this.headColor = '#ff0000';
+			this.x = 0, this.y = 0;
+			this.vx = 0, this.vy = 0;
+			this.snakeLen = 0, this.tail = [];
+		},
+
+		update: function () {
+
+			// Makes it move
+			var key = InputListener;
+			if (key) {
+				if (!this.vy && key.isDown()) {
+					this.vy = this.size, this.vx = 0;
+				}
+				if (!this.vy && key.isUp()) {
+					this.vy = -this.size, this.vx = 0;
+				}
+				if (!this.vx && key.isLeft()) {
+					this.vy = 0, this.vx = -this.size;
+				}
+				if (!this.vx && key.isRight()) {
+					this.vy = 0, this.vx = this.size;
+				}
+			}
+
+			// Check for collisions on the border
+			this.checkBorder();
+
+			// Moves the tail
+			if (this.snakeLen === this.tail.length) {
+				for (var i = 0; i < this.tail.length - 1; i++) {
+					this.tail[i].x = this.tail[i + 1].x;
+					this.tail[i].y = this.tail[i + 1].y;
+				}
+			}
+			this.tail[this.snakeLen - 1] = {
+				x: this.x,
+				y: this.y
+			};
+
+			// Moves the head
+			this.x += this.vx;
+			this.y += this.vy;
+
+			if (this.checkCollision()) {
+				SnakeGameParams.state = 1; // Game Over State
+				clearInterval(SnakeGameParams.MainLoop);
+			}
+
+		},
+
+		render: function () {
+			// Choose color
+			SnakeGameParams.ctx.fillStyle = this.color;
+			// Draws the tail
+			for (var i = 0; i < this.tail.length; i++) {
+				SnakeGameParams.ctx.fillRect(this.tail[i].x, this.tail[i].y, this.size, this.size);
+			}
+			// Draws the head
+			SnakeGameParams.ctx.fillStyle = this.headColor;
+			SnakeGameParams.ctx.fillRect(this.x, this.y, this.size, this.size);
+		},
+
+		checkCollision: function () {
+			// Check for collisions in tail
+			for (var i = 0; i < this.tail.length; i++) {
+				if (this.x == this.tail[i].x && this.y == this.tail[i].y) {
+					return true;
+				}
+			}
+			return false;
+		},
+
+		checkBorder: function () {
+
+			// X axis
+			if (this.vx < 0 && this.x <= 0) {
+				this.x = SnakeGameParams.width;
+			}
+			if (this.vx > 0 && this.x == SnakeGameParams.width - this.size) {
+				this.x = -this.size;
+			}
+
+			// Y axis
+			if (this.vy < 0 && this.y <= 0) {
+				this.y = SnakeGameParams.height;
+			}
+			if (this.vy > 0 && this.y == SnakeGameParams.height - this.size) {
+				this.y = -this.size;
+			}
+		},
+
+		grow: function () {
+			SnakeGameParams.points += 100;
+			$('#points').text(SnakeGameParams.points);
+			// Check if not win
+			if (++this.snakeLen >= SnakeGameParams.maxLen) {
+				SnakeGameParams.state = 2;
+				clearInterval(SnakeGameParams.MainLoop);
+			}
+
+		}
+
+	}
+
+	return Player;
+
+});
+angular.module('Games').factory('SnakeFood', function (SnakeGameParams, SnakePlayer) {
+
+	// Instances
+	var Player = SnakePlayer;
+
+	/**
+	 * Food controller
+	 */
+	var Food = {
+
+		create: function () {
+			this.size = 20, this.color = '#a0b2cc';
+			var obj = this.createPos();
+			this.x = obj.x, this.y = obj.y;
+		},
+
+		update: function () {
+			// If collides with player
+			if (Player.x == this.x && Player.y == this.y) {
+				Player.grow();
+				this.create();
+			}
+
+		},
+
+		render: function () {
+			SnakeGameParams.ctx.fillStyle = this.color;
+			SnakeGameParams.ctx.fillRect(this.x, this.y, this.size, this.size);
+		},
+
+		createPos: function () {
+			var px = this.rand(SnakeGameParams.width);
+			var py = this.rand(SnakeGameParams.height);
+
+			if (Player.x == px && Player.y == py) return this.createPos();
+
+			// Check if not colliding on tail
+			for (var i = 0; i < Player.tail.length; i++) {
+				if (Player.tail[i].x == px && Player.tail[i].y == py) {
+					return this.createPos();
+				}
+			}
+			return {
+				x: px,
+				y: py
+			};
+
+		},
+
+		rand: function (limit) {
+			return Math.floor(Math.random() * limit / this.size) * this.size;
+		}
+
+	}
+
+	return Food;
+
+});
+angular.module('Games').factory('SnakeGameParams', function () {
+
+	// Instances
+	var GameParams = {
+		width: 320,
+		height: 240,
+		size: 20,
+		fps: 5,
+		points: 0,
+		maxLen: 0,
+		state: 0,
+		ctx: null
+	};
+
+	return GameParams;
+
+});

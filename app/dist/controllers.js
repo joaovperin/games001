@@ -8,10 +8,6 @@ angular.module('Games').controller('CadastroController', function ($scope) {
 angular.module('Games').controller ('FooterController', function($scope){
     $scope.foot = "Novo Hamburgo, " + Date();
 });
-//Controller da página de Games
-angular.module('Games').controller('GamesCtrl', function(){
-
-});
 //Controller com funções genéricas, usado em jogos
 angular.module('Games').controller ('GenericController', function($scope, $location){
 
@@ -102,6 +98,58 @@ angular.module('Games').controller('TestesController', function ($scope) {
 
         ];
     $scope.myColor = "";
+});
+//Controller da página de Games - Breakout
+angular.module('Games').controller('BreakoutGamesCtrl', function ($scope, BreakoutParams, BreakoutTecla, BreakoutGame) {
+
+    /**
+     * Função chamada ao carregar a página, para carregar o jogo
+     */
+    $scope.$on('$viewContentLoaded', function () {
+        // Pega o elemento canvas da página html e guarda seu contexto numa variável
+        BreakoutParams.canvas = document.getElementById('canvas');
+        BreakoutParams.context = canvas.getContext("2d");
+        console.log(BreakoutParams.canvas)
+        console.log(BreakoutParams.context)
+        // Atribui os eventos de pressionamento de tecla
+        document.addEventListener("keydown", BreakoutTecla.keyDown);
+        document.addEventListener("keyup", BreakoutTecla.keyUp);
+        // Carrega parâmetros do Game
+        BreakoutGame.setup();
+        BreakoutGame.render();
+    });
+
+
+    /**
+     * Faz o jogo iniciar
+     */
+    $scope.playGame = function () {
+        console.log('clico');
+        // Se não acabou o jogo
+        if (!BreakoutParams.over) {
+            BreakoutGame.togglePause();
+        } else {
+            reloadPage();
+        }
+    };
+
+});
+//Controller da página de Games - Snake
+angular.module('Games').controller('SnakeGamesCtrl', function ($scope, SnakeGame) {
+
+    $scope.$on('$viewContentLoaded', function () {
+        angular.element('#result').hide();
+        SnakeGame.initGameParams();
+    });
+
+    $scope.startGame = function () {
+        SnakeGame.startGame();
+    };
+
+    $scope.stopGame = function () {
+        SnakeGame.stopGame();
+    };
+
 });
 //Controller do footer da página
 app.controller ('HTTPError404', function($scope, $location){

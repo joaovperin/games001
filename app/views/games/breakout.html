@@ -7,9 +7,9 @@
     div.center{text-align: center; margin: auto;}
 </style>
 <div class="content" ng-controller="GenericController">
-   <div class="center" ng-init="loadGame()">
+   <div class="center">
 	    <h1 id="titulo" style="margin: 2px;">Jogo da barra!</h1>
-	    <a href="javascript:playGame()" id='playButton'>PLAY GAME</a>
+	    <a ng-click="playGame()" id='playButton'>PLAY GAME</a>
 	    <pre>Pontos: <span id="points">0</span></pre>
 	    <canvas id="canvas" width="600" height="460">
 	        Navegador não suporta HTML5
